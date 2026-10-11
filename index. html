@@ -1,0 +1,124 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Poona Kutty's Universe 💗</title>
+<style>
+*{box-sizing:border-box}
+body{
+ margin:0;min-height:100vh;color:#fff0fb;
+ font-family:system-ui,sans-serif;text-align:center;
+ background:radial-gradient(ellipse at top,#51417f,#211b43 65%,#100f29);
+ overflow-x:hidden
+}
+main{max-width:520px;margin:auto;padding:26px 20px 40px}
+h1{font-size:clamp(27px,7vw,39px);margin:12px 0;color:#ffd5f1}
+p{line-height:1.7}
+.sky{font-size:20px;letter-spacing:12px;color:#ffe7a5}
+.moon{font-size:55px;margin:12px}
+.bunny{
+ font-size:92px;display:block;margin:14px auto;
+ filter:drop-shadow(0 0 18px #f7b8f5);
+ animation:bob 2s infinite ease-in-out
+}
+@keyframes bob{50%{transform:translateY(-9px)}}
+.card{
+ background:#ffffff12;border:1px solid #ffffff30;
+ border-radius:24px;padding:22px;margin:20px 0;
+ backdrop-filter:blur(6px)
+}
+button{
+ cursor:pointer;border:0;border-radius:18px;padding:13px 18px;
+ font-size:16px;font-weight:700;background:#ffd3ef;color:#492957;
+ margin:5px
+}
+button:active{transform:scale(.96)}
+.stars{display:grid;grid-template-columns:repeat(5,1fr);gap:7px}
+.star{
+ padding:13px 0;background:#ffffff12;border:1px solid #ffffff25;
+ border-radius:14px;font-size:24px
+}
+.star.done{background:#ffe9a8;color:#543768}
+#note{min-height:78px;display:grid;place-items:center;color:#ffe2f6}
+.small{font-size:13px;color:#d4c5ee}
+.hidden{display:none}
+</style>
+</head>
+<body>
+<main>
+ <div class="sky">✦ · ˚ ✧ · ✦ · ˚ ✧</div>
+ <div class="moon">🌙</div>
+ <p class="small">A tiny universe made just for</p>
+ <h1>Poona Kutty 🐰</h1>
+ <p>One little bunny has a secret mission.<br>
+ Will you help it find five magical stars?</p>
+
+ <div class="card">
+   <span class="bunny" id="bunny">🐰</span>
+   <p id="scene">"Psst... Poona Kutty! I have something to show you." 💗</p>
+   <button id="start" onclick="begin()">Let's explore ✨</button>
+   <div id="game" class="hidden">
+     <p>Tap a star to discover its little secret!</p>
+     <div class="stars" id="stars"></div>
+     <p class="small" id="progress">0 of 5 stars found</p>
+     <div id="note"></div>
+   </div>
+ </div>
+
+ <div id="ending" class="card hidden">
+   <div style="font-size:45px">🐰 💗 🐰</div>
+   <h2>You've found our little universe!</h2>
+   <p>Poona Kutty, out of all the people in this big world,
+   I'm so happy that I get to know you.</p>
+   <p>Even the smallest things become special when they
+   remind me of you. And this tiny world?</p>
+   <h2 style="color:#ffd5f1">It's for you, from Mosa Kutty. 💗</h2>
+   <p>Distance: miles apart.<br>Our little universe: always here. 🌙</p>
+   <button onclick="location.reload()">Play again ✨</button>
+ </div>
+ <p class="small">Made with a little time, a little imagination,
+ and lots of thought. 💌</p>
+</main>
+
+<script>
+const secrets=[
+ ["⭐","A little wish","I hope something makes you smile today, Poona Kutty."],
+ ["🌸","A tiny flower","If I could leave a flower beside you right now, I would."],
+ ["🌙","Our moon","We're far apart, but we're still under the same sky."],
+ ["✨","A little sparkle","You make this big world feel a little more special."],
+ ["💗","Your last star","Surprise! Mosa Kutty made this tiny universe just for you."]
+];
+let found=new Set();
+
+function begin(){
+ document.getElementById("start").classList.add("hidden");
+ document.getElementById("game").classList.remove("hidden");
+ document.getElementById("scene").textContent=
+ "Your adventure begins! Find all five stars, Poona Kutty. 🌟";
+ const area=document.getElementById("stars");
+ secrets.forEach((s,i)=>{
+   const b=document.createElement("button");
+   b.className="star";b.textContent="✦";
+   b.setAttribute("aria-label","Find star "+(i+1));
+   b.onclick=()=>discover(i,b);
+   area.appendChild(b);
+ });
+}
+function discover(i,b){
+ if(found.has(i))return;
+ found.add(i);b.textContent=secrets[i][0];b.classList.add("done");
+ document.getElementById("progress").textContent=
+ found.size+" of 5 stars found";
+ document.getElementById("note").innerHTML=
+ "<div><strong>"+secrets[i][1]+"</strong><br>"+secrets[i][2]+"</div>";
+ if(found.size===5){
+   document.getElementById("bunny").textContent="🐰💗🐰";
+   document.getElementById("ending").classList.remove("hidden");
+   document.getElementById("ending").scrollIntoView({behavior:"smooth"});
+ }
+}
+</script>
+</body>
+</html>
